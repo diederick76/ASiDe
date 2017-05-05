@@ -56,7 +56,7 @@ Start, stop, enable and disable as you would any systemd unit. The unit is calle
 
 2. Create a directory structure under `/var/home/builduser`.
 
-`mkdir -p /var/home/builduser/{bin,trigger,repo1/{bin,log,resources/{test,prod},work}}`
+`# mkdir -p /var/home/builduser/{bin,trigger,repo1/{bin,log,resources/{test,prod},work}}`
 
 3. Put the scripts at the right location. See the diagram above.
 
