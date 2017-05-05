@@ -4,12 +4,12 @@ ASiDe (A Simple Deployment pipeline) is a Continuous Integration and Deployment 
 
 When the applied build script contains the needed test, build and deployment steps, all that is needed is a push to a master branch to release the new version of your project. Logs can be followed or emailed to the user afterwards.
 
-ASiDe consists of the following parts:
+ASiDe consists of the following parts (replace projectname with the name of your project):
 
 * A systemd-unit for turning the build trigger on or off: `/etc/systemd/system/aside.service`
 * A monitoring script using `inotify(7)` to monitor which triggers appear in `/home/builduser/trigger/`: `/home/builduser/bin/monitor`
-* A post-update hook in each git repository: `/srv/git/&lt;projectname.git&gt;/hooks/post-update`
-* Build scripts which are triggered by the monitor script: `/var/home/builduser/&lt;projectname&gt;/bin/build`
+* A post-update hook in each git repository: `/srv/git/projectname.git/hooks/post-update`
+* Build scripts which are triggered by the monitor script: `/var/home/builduser/projectname/bin/build`
 
 # Flow
 
@@ -20,8 +20,8 @@ Deploying is done by a dedicated user `builduser`. Its home `/var/home/builduser
  	 builduser/
  		  bin/monitor
  		  trigger/
- 			   <projectname>
- 		  <projectname>/
+ 			   projectname
+ 		  projectname/
  	 		  bin/build
  	 		  resources/
  		 		   test/
@@ -34,7 +34,7 @@ When the systemd-unit is enabled, it is started by booting the build server. The
 
 1. A developer pushes a change to `origin/master`.
 2. The post-update hook checkt that the branch is `master`.
-3. The post-update hook clones the repository to `/var/home/builduser/&lt;repo&gt;work/`.
+3. The post-update hook clones the repository to `/var/home/builduser/projectname/work/`.
 4. The post-update hook creates an empty file with the name of the repository in `/var/home/builduser/trigger/` and deletes it immediately.
 5. The monitoring script notices the trigger and starts the build script in the repository with the name of the trigger.
 6. Afterwards is emails the build script's output to the developer.
