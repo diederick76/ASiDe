@@ -1,0 +1,23 @@
+#!/bin/bash
+
+# This is the script that monitors the trigger location, starts the build script and emails the 
+# developer with the results afterwards. Adjust the email address or remove the EMAIL variable and
+# the mail command if you don't use a mail server. In that case you can find the build logs on the 
+# build server in LOGDIR.
+
+EMAIL="developer@company.com"
+BASEDIR="/var/home/builduser/"
+TRIGGERDIR="${BASEDIR}trigger/"
+inotifywait --monitor --event CREATE --format %f $TRIGGERDIR | while read FILE;
+do 
+        EMAILSUBJECT="${FILE} build attempt"
+        REPODIR="${BASEDIR}${FILE}/"
+        BINDIR="${REPODIR}bin/"
+        WORKDIR="${REPODIR}work/"
+        LOGDIR="${REPODIR}log/"
+
+        CMD="${BINDIR}build > ${LOGDIR}build.log ; mail -s \"${EMAILSUBJECT}\" \"${EMAIL}\" < ${LOGDIR}build.log"
+        echo $CMD
+        eval $CMD
+done
+ 

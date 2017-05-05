@@ -1,0 +1,9 @@
+[Unit]
+Description=ASiDe Build Trigger
+
+[Service]
+ExecStart=/var/home/builduser/bin/monitor
+User=builduser
+
+[Install]
+WantedBy=multi-user.target 

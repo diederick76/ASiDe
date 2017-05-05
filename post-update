@@ -1,0 +1,37 @@
+#!/bin/sh
+#
+# This is the post-update hook that goes into your project's remove git repostory's hooks. So if your
+# repostories are at /srv/git/ and your project is in /srv/git/_projectname_.git/, then you should place
+# this script in /srv/git/_projectname_.git/hooks/.
+#
+# Adjust it to your setup.
+
+read oldrev newrev refname
+
+## Where to store the log information about the updates
+LOGFILE=./post-receive.log
+
+# The deployed directory (where it is tested and build)
+DEPLOYDIR=/var/home/builduser/_projectname_/work
+
+case " $* " in *' refs/heads/master '*)
+
+        ##  Record the fact that the push has been received
+        echo -e "Received Push Request at $( date +%F )" >> $LOGFILE
+        echo " - Old SHA: $oldrev New SHA: $newrev Branch Name: $refname" >> $LOGFILE
+
+        ## Update the deployed copy
+        echo "Starting Deploy" >> $LOGFILE
+
+        echo " - Starting code update"
+        GIT_WORK_TREE="$DEPLOYDIR" git checkout -f
+        echo " - Finished code update"
+
+        echo " - Triggering tests and deployment"
+        touch /var/home/builduser/trigger/_projectname_
+        rm /var/home/builduser/trigger/_projectname_
+
+        echo "Finished Deploy" >> $LOGFILE
+        ;;
+esac
+ 
