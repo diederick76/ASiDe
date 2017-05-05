@@ -15,7 +15,7 @@ ASiDe consists of the following parts:
 
 Deploying is done by a dedicated user `builduser`. `/var/home/builduser/` looks as follows:
 
-`
+```
  /var/home/
  	builduser/
  		bin/monitor
@@ -26,7 +26,7 @@ Deploying is done by a dedicated user `builduser`. `/var/home/builduser/` looks 
  			resources/
  				test/
  			work/
-`
+```
 
 The monitoring script uses the name of the trigger to select the correct project. Each project has a dedicated build script and resources used for testing when necessary. This way the development environment doesn't need to have those and they don't need to be committed to git, which would be insecure.
 
@@ -49,12 +49,14 @@ Start, stop, enable and disable as you would any systemd unit. The unit is calle
 
 1. Create a system user `builduser` and a system group `deploy` with home directory `/var/home/builduser`.
 
- # groupadd -r -g 900 deploy
- # useradd -r -b /var/home -m -N -g deploy -s /bin/bash builduser
+```
+# groupadd -r -g 900 deploy`
+# useradd -r -b /var/home -m -N -g deploy -s /bin/bash builduser
+```
 
 2. Create a directory structure under `/var/home/builduser`.
 
- # mkdir -p /var/home/builduser/{bin,trigger,repo1/{bin,log,resources/{test,prod},work}}
+`mkdir -p /var/home/builduser/{bin,trigger,repo1/{bin,log,resources/{test,prod},work}}`
 
 3. Put the scripts at the right location. See the diagram above.
 
