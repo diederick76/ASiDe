@@ -50,7 +50,7 @@ Start, stop, enable and disable as you would any systemd unit. The unit is calle
 1. Create a system user `builduser` and a system group `deploy` with home directory `/var/home/builduser`. Use a free group number under 1000, to indicate it is a system group. The example uses 900.
 
 ```
-# groupadd -r -g 900 deploy`
+# groupadd -r -g 900 deploy
 # useradd -r -b /var/home -m -N -g deploy -s /bin/bash builduser
 ```
 
