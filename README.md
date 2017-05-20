@@ -33,13 +33,13 @@ The monitoring script uses the name of the trigger to select the correct project
 When the systemd-unit is enabled, it is started by booting the build server. Then the flow is as follows:
 
 1. A developer pushes a change to `origin/master`.
-2. The post-update hook checkt that the branch is `master`.
+2. The post-update hook checks that the branch is `master`.
 3. The post-update hook clones the repository to `/var/home/builduser/projectname/work/`.
 4. The post-update hook creates an empty file with the name of the repository in `/var/home/builduser/trigger/` and deletes it immediately.
 5. The monitoring script notices the trigger and starts the build script in the repository with the name of the trigger.
-6. Afterwards is emails the build script's output to the developer.
+6. Afterwards it emails the build script's output to the developer.
 
-The example build script deploys a Java Maven project. It runs the unit tests and copies the test resources to the project to run the integration tests. It then packages the project and copies the artifcact to an installation directory, to which builduser must have write rights. At last, it emails the logs to the developer and empties the working directory.
+The example build script deploys a Java Maven project. It runs the unit tests and copies the test resources to the project to run the integration tests. It then packages the project and copies the artifact to an installation directory, to which builduser must have writing rights. At last, it emails the logs to the developer and empties the working directory.
 
 # Starting and stopping
 
@@ -60,7 +60,7 @@ Start, stop, enable and disable as you would any systemd unit. The unit is calle
 # mkdir -p /var/home/builduser/{bin,trigger,project1/{bin,log,resources/{test,prod},work}}
 ```
 
-3. Put the scripts at the right location and adapt them to your needs. See the diagram above.
+3. Put the scripts at the right locations and adapt them to your needs. See the diagram above.
 
 4. Enable the triggers.
 
